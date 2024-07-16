@@ -1,0 +1,73 @@
+---
+// Supports weights 100-900
+import '@fontsource-variable/league-spartan'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import { ViewTransitions } from 'astro:transitions'
+interface Props {
+	title: string;
+	description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+		<title>{title}</title>
+		<ViewTransitions />
+	</head>
+	<body>
+
+		<Header />
+			<slot />
+		<Footer />
+		
+	</body>
+</html>
+<style is:global>
+	:root {
+		color-scheme: light dark;
+		--color-primary: #ddd;
+	}
+
+	::-webkit-scrollbar {
+  		width: 10px;
+		border-radius: 10px;
+	}
+
+	::-webkit-scrollbar-thumb {
+  		background: var(--color-primary);
+		background-clip: content-box;
+		border: 2px solid #0000;
+  		border-radius: 10px;
+	}
+
+	::-webkit-scrollbar-thumb:active {
+		background-color: #666;
+	}
+	
+	html {
+		font-family: 'League Spartan Variable', system-ui, sans-serif;
+		/* background: #1b2203; */
+		background: white;
+		scroll-behavior: smooth;
+		overflow-x: hidden;
+		scrollbar-gutter: stable;
+	}
+
+	body {
+		
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
+	}
+</style>
