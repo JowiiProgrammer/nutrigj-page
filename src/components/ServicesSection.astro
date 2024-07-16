@@ -1,0 +1,31 @@
+---
+// ServicesSection.astro
+import Section from '../components/Section.astro';
+import { getServicePages } from '../utils/services.js';
+
+const servicePages = await getServicePages();
+---
+
+<Section>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
+    <div class="text-center mb-8 md:mb-12 lg:mb-16">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-2">Mis servicios</h2>
+      <p class="text-lg md:text-xl lg:text-2xl text-gray-600">Descubre cómo puedo ayudarte a alcanzar tus objetivos deportivos.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-10">
+      {servicePages.map((service) => (
+        <a href={service.url} class="bg-white rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+          <div class="p-6">
+            <div class="flex items-center mb-4">
+              <i class={`fas ${service.icon} text-[#1D938B] mr-2`}></i>
+              <h3 class="text-xl font-bold text-gray-800">{service.title}</h3>
+            </div>
+            <p class="text-gray-600">{service.description}</p>
+            {service.subtitle && <p class="text-gray-600 font-bold">{service.subtitle}</p>}
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Section>
