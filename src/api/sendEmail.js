@@ -1,4 +1,4 @@
-// api/sendEmail.js
+// src/api/sendEmail.js
 import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
@@ -9,16 +9,16 @@ export default async function handler(req, res) {
     const transporter = nodemailer.createTransport({
       service: 'gmail', // Puedes usar otro servicio de correo
       auth: {
-        user: 'tu_correo@gmail.com', // Tu correo electrónico
-        pass: 'tu_contraseña' // Tu contraseña o un token de aplicación
-      }
+        user: process.env.EMAIL_USER, // Usa la variable de entorno
+        pass: process.env.EMAIL_PASS, // Usa la variable de entorno
+      },
     });
 
     const mailOptions = {
       from: email,
-      to: 'tu_correo@gmail.com', // Tu correo electrónico
+      to: process.env.EMAIL_USER, // Usa la variable de entorno
       subject: `Nuevo mensaje de ${name}: ${reason}`,
-      text: `Nombre: ${name}\nEmail: ${email}\nMotivo: ${reason}\nMensaje: ${message}`
+      text: `Nombre: ${name}\nEmail: ${email}\nMotivo: ${reason}\nMensaje: ${message}`,
     };
 
     try {
