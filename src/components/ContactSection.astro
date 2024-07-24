@@ -1,0 +1,89 @@
+---
+import Section from '../components/Section.astro';
+
+const reasons = [
+  { value: 'asesoria-nutricional', label: 'Asesoría Nutricional' },
+  { value: 'analisis-composicion-corporal', label: 'Analísis de la Composición Corporal' },
+  { value: 'otros', label: 'Otros' },
+];
+---
+
+<Section class="bg-gray-100 py-12 md:py-16 lg:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 text-center mb-8">Contacto</h2>
+      <p class="text-lg md:text-xl text-gray-600 text-center mb-12">Si tienes alguna pregunta o consulta, no dudes en contactarme. Estoy aquí para ayudarte.</p>
+  
+      <form class="bg-white rounded-lg shadow-lg p-8" id="contact-form">
+        <div class="mb-4">
+          <label class="block text-gray-600 text-sm font-bold mb-2" for="name">Nombre</label>
+          <input type="text" id="name" name="name" required class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline bg-[#1D938B] placeholder-white" placeholder="Tu nombre" />
+        </div>
+  
+        <div class="mb-4">
+          <label class="block text-gray-600 text-sm font-bold mb-2" for="email">Correo Electrónico</label>
+          <input type="email" id="email" name="email" required class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline bg-[#1D938B] placeholder-white" placeholder="Tu correo electrónico" />
+        </div>
+  
+        <div class="mb-4">
+          <label class="block text-gray-600 text-sm font-bold mb-2" for="reason">Motivo de la Consulta</label>
+          <select id="reason" name="reason" required class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline bg-[#1D938B]">
+            <option value="" disabled selected>Selecciona un motivo</option>
+            {reasons.map((reason) => (
+              <option value={reason.value}>{reason.label}</option>
+            ))}
+          </select>
+        </div>
+  
+        <div class="mb-4">
+          <label class="block text-gray-600 text-sm font-bold mb-2" for="message">Mensaje</label>
+          <textarea id="message" name="message" required class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline bg-[#1D938B] placeholder-white" rows="4" placeholder="Escribe tu mensaje aquí..."></textarea>
+        </div>
+  
+        <div class="flex items-center justify-center">
+          <button type="submit" class="bg-secondary-color hover:bg-[#8eaf0f] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300">
+            Enviar
+          </button>
+        </div>
+      </form>
+    </div>
+  </Section>
+  
+  <script>
+    const form = document.getElementById('contact-form') as HTMLFormElement;
+  
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+  
+      const name = (document.getElementById('name') as HTMLInputElement).value;
+      const email = (document.getElementById('email') as HTMLInputElement).value;
+      const reason = (document.getElementById('reason') as HTMLSelectElement).value;
+      const message = (document.getElementById('message') as HTMLTextAreaElement).value;
+  
+      // Validar campos
+      if (!name || !email || !reason || !message) {
+        alert('Por favor, completa todos los campos del formulario.');
+        return;
+      }
+  
+      // Enviar datos al backend
+      try {
+        const response = await fetch('../api/sendEmail', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, email, reason, message }),
+        });
+  
+        if (response.ok) {
+          alert('Mensaje enviado con éxito.');
+          form.reset(); // Resetea el formulario
+        } else {
+          alert('Error al enviar el mensaje.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error al enviar el mensaje.');
+      }
+    });
+  </script>

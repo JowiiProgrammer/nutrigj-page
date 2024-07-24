@@ -1,0 +1,22 @@
+---
+import Section from '../components/Section.astro';
+
+const profileImage = 'https://placehold.jp/500x500.png'
+const aboutText = `
+  Soy un apasionado de la nutrición deportiva y el bienestar. 
+  Mi objetivo es ayudar a las personas a alcanzar sus metas de salud a través de una alimentación equilibrada y un estilo de vida activo. 
+  Con años de experiencia en el campo, ofrezco consejos prácticos y estrategias personalizadas para mejorar el rendimiento y la salud general.
+`;
+---
+
+<Section class="bg-gray-100 py-12 md:py-16 lg:py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
+    <div class="md:w-1/2 mb-8 md:mb-0">
+      <img src={profileImage} alt="Sobre mí" class="rounded-lg shadow-lg w-full h-auto" />
+    </div>
+    <div class="md:w-1/2 md:pl-10">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">Sobre mí</h2>
+      <p class="text-lg md:text-xl text-gray-600">{aboutText}</p>
+    </div>
+  </div>
+</Section>

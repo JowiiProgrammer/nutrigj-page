@@ -1,0 +1,94 @@
+---
+---
+
+<div id="cookieConsent" class="fixed bottom-0 left-0 right-0 bg-white p-6 shadow-lg hidden">
+  <h2 class="text-xl font-bold mb-4 text-black">Política de Cookies</h2>
+  <p class="mb-4 text-black">
+    Utilizamos cookies propias y de terceros para mejorar nuestros servicios y mostrarle publicidad relacionada con sus preferencias mediante el análisis de sus hábitos de navegación.
+  </p>
+  <div class="mb-4">
+    <label class="flex items-center">
+      <input type="checkbox" id="essentialCookies" checked disabled class="mr-2">
+      <span class="text-black">Cookies esenciales (siempre activas)</span>
+    </label>
+  </div>
+  <div class="mb-4">
+    <label class="flex items-center">
+      <input type="checkbox" id="analyticsCookies" class="mr-2">
+      <span class="text-black">Cookies analíticas</span>
+    </label>
+  </div>
+  <div class="mb-4">
+    <label class="flex items-center">
+      <input type="checkbox" id="marketingCookies" class="mr-2">
+      <span class="text-black">Cookies de marketing</span>
+    </label>
+  </div>
+  <div class="mb-4">
+    <a href="/politica-privacidad" class="text-primary-color hover:underline">Leer más sobre nuestra política de privacidad</a>
+  </div>
+  <div class="flex justify-end space-x-4">
+    <button id="rejectAllCookies" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Rechazar todo</button>
+    <button id="acceptSelectedCookies" class="px-4 py-2 bg-secondary-color text-white rounded hover:bg-[#8eaf0f]">Aceptar selección</button>
+  </div>
+</div>
+
+<script>
+  let cookiePreferences = {
+    essential: true,
+    analytics: false,
+    marketing: false
+  };
+
+  function showBanner() {
+    document.getElementById('cookieConsent').classList.remove('hidden');
+  }
+
+  function hideBanner() {
+    document.getElementById('cookieConsent').classList.add('hidden');
+  }
+
+  function saveCookiePreferences() {
+    localStorage.setItem('cookiePreferences', JSON.stringify(cookiePreferences));
+    hideBanner();
+    applyCookiePreferences();
+  }
+
+  function applyCookiePreferences() {
+    // Aquí deberías implementar la lógica para activar/desactivar cookies
+    // basándote en las preferencias del usuario
+    if (cookiePreferences.analytics) {
+      // Activar cookies analíticas
+      console.log('Cookies analíticas activadas');
+    }
+    if (cookiePreferences.marketing) {
+      // Activar cookies de marketing
+      console.log('Cookies de marketing activadas');
+    }
+  }
+
+  function rejectAllCookies() {
+    cookiePreferences.analytics = false;
+    cookiePreferences.marketing = false;
+    saveCookiePreferences();
+  }
+
+  function acceptSelectedCookies() {
+    cookiePreferences.analytics = document.getElementById('analyticsCookies').checked;
+    cookiePreferences.marketing = document.getElementById('marketingCookies').checked;
+    saveCookiePreferences();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedPreferences = localStorage.getItem('cookiePreferences');
+    if (savedPreferences) {
+      cookiePreferences = JSON.parse(savedPreferences);
+      applyCookiePreferences();
+    } else {
+      showBanner();
+    }
+
+    document.getElementById('rejectAllCookies').addEventListener('click', rejectAllCookies);
+    document.getElementById('acceptSelectedCookies').addEventListener('click', acceptSelectedCookies);
+  });
+</script>

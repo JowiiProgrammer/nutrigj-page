@@ -1,0 +1,40 @@
+---
+// RecentPostsSection.astro
+import Section from '../components/Section.astro';
+import { getRecentPosts } from '../utils/api';
+
+const recentPosts = await getRecentPosts();
+---
+
+<Section class="bg-gray-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
+    <div class="text-center mb-8 md:mb-12 lg:mb-16">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-2">Publicaciones recientes</h2>
+      <p class="text-lg md:text-xl lg:text-2xl text-gray-600">Mantente actualizado con mis últimas publicaciones sobre nutrición deportiva</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10">
+      {recentPosts.map((post) => (
+        <div class="bg-white rounded-lg shadow-md h-full flex flex-col">
+          <div class="relative">
+            <img src={post.image} alt={post.title} class="rounded-t-lg w-full h-48 object-cover" />
+            <div class="absolute top-2 left-2 flex flex-wrap gap-2">
+              {post.categories.map((category) => (
+                <div class="bg-[#1D938B] text-white px-2 py-1 rounded text-sm">{category}</div>
+              ))}
+            </div>
+          </div>
+          <div class="p-4 flex-1 flex flex-col">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">{post.title}</h3>
+            <p class="text-gray-600 mb-4 flex-1">{post.description}</p>
+            <div class="flex justify-end">
+              <a href={post.url} class="btn bg-secondary-color hover:bg-[#8eaf0f] text-white font-medium py-2 px-4 rounded transition-colors duration-300">
+                Leer más
+              </a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</Section>
